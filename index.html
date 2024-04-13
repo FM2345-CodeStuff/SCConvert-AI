@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCConvert AI</title>
+</head>
+<body>
+    <img src="logo.png" alt="SCConvert AI logo placeholder.">
+    <br>
+    <br>
+  <input type="file" id="fileInput" accept=".sb3">
+  <select id="conversionType">
+    <option value="zip">.zip</option>
+    <option value="rar">.rar</option>
+    <option value="json">.json</option>
+  </select>
+  <br>
+  <br>
+  <button onclick="convertFile()">Convert</button>
+
+  <script>
+    function convertFile() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Please select a .sb3 file');
+        return;
+      }
+
+      const fileName = file.name;
+      const conversionType = document.getElementById('conversionType').value;
+      const newFileName = fileName.replace('.sb3', `.${conversionType}`);
+
+      const blob = file.slice(0, file.size, `application/${conversionType}`);
+      const newFile = new File([blob], newFileName, { type: `application/${conversionType}` });
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(newFile);
+      downloadLink.download = newFileName;
+      downloadLink.click();
+    }
+  </script>
+</body>
+</html>
